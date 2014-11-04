@@ -1,0 +1,54 @@
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        tools:context=".MainActivity" />
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".MainActivity">
+
+        <com.devsmart.android.ui.HorizontalListView
+            android:id="@+id/mevsimlerList"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"/>
+
+        <TextView
+            android:id="@+id/denemeTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/mevsimlerList"
+            android:text="Cihan Kaptan"/>
+
+        <Button
+            android:id="@+id/denemeButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/mevsimlerList"
+            android:layout_toRightOf="@id/denemeTextView"
+            android:layout_marginLeft="50dp"
+            android:text="Button" />
+
+        <ListView
+            android:id="@+id/vertical_listview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/denemeButton"/>
+
+    </RelativeLayout>
+
+
+</LinearLayout>
+
+

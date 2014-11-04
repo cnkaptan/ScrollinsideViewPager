@@ -1,0 +1,1 @@
+export PATH=$PATH:/Users/cihankaptan/Path to platform-tools/
