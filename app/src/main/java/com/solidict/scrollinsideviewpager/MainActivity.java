@@ -9,10 +9,7 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.devsmart.android.ui.HorizontalListView;
@@ -28,17 +25,9 @@ public class MainActivity extends Activity {
     protected static String[] aylar;
     SectionsPagerAdapter mSectionsPagerAdapter;
 
-    ViewPager mViewPager;
     @InjectView(R.id.pager)
-    ViewPager mPager;
-    @InjectView(R.id.denemeTextView)
-    TextView mDenemeTextView;
-    @InjectView(R.id.denemeButton)
-    Button mDenemeButton;
-    @InjectView(R.id.vertical_listview)
-    ListView mVerticalListview;
-    @InjectView(R.id.mevsimlerList)
-    HorizontalListView mMevsimlerList;
+    ViewPager mViewPager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,8 +36,6 @@ public class MainActivity extends Activity {
         ButterKnife.inject(this);
 
         aylar = getResources().getStringArray(R.array.mevsimler);
-        mVerticalListview.setAdapter(new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1, aylar));
-
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
@@ -96,9 +83,6 @@ public class MainActivity extends Activity {
         }
     }
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
     public static class PlaceholderFragment extends Fragment {
         String page, titlepage;
 
@@ -131,12 +115,12 @@ public class MainActivity extends Activity {
 
             page = getArguments().getInt(ARG_SECTION_NUMBER) + "";
             titlepage = getArguments().getString(ARG_SECTION_TITLE);
-
-            mSectionLabel = (TextView) rootView.findViewById(R.id.section_label);
             mSectionLabel.setText(titlepage + "\t" + page);
-            HorizontalListViewAdapter horizontalListAdapter =new  HorizontalListViewAdapter(aylar);
 
+
+            HorizontalListViewAdapter horizontalListAdapter = new HorizontalListViewAdapter(aylar);
             mMevsimlerList.setAdapter(horizontalListAdapter);
+
 
             return rootView;
         }
@@ -149,12 +133,16 @@ public class MainActivity extends Activity {
     }
 
 }
-
-
+// -----------------------------------------------------------
+//
 // HORİZONTAL LIST VIEW AFAPTER
+//
+// -----------------------------------------------------------
+
 class HorizontalListViewAdapter extends BaseAdapter {
     String[] aylar;
-    public HorizontalListViewAdapter(String[] aylar){
+
+    public HorizontalListViewAdapter(String[] aylar) {
 
         this.aylar = aylar;
 
@@ -185,3 +173,6 @@ class HorizontalListViewAdapter extends BaseAdapter {
     }
 
 }
+
+
+
