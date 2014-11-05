@@ -14,7 +14,9 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.devsmart.android.ui.HorizontalListView;
@@ -40,7 +42,6 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
 
-
         aylar = getResources().getStringArray(R.array.mevsimler);
 
         // Create the adapter that will return a fragment for each of the three
@@ -53,6 +54,8 @@ public class MainActivity extends BaseActivity {
 
         initializeScreenMeasure(new DisplayMetrics());
         Log.e("BAKBAKBAKBAKBAK", app.screenWidth + "\t\t\t" + app.screenHeight);
+
+
     }
 
 
@@ -100,6 +103,8 @@ public class MainActivity extends BaseActivity {
         TextView mSectionLabel;
         @InjectView(R.id.mevsimlerList)
         HorizontalListView mMevsimlerList;
+        @InjectView(R.id.denemeButton)
+        Button mDenemeButton;
 
 
         public static PlaceholderFragment newInstance(int sectionNumber, String titlepage) {
@@ -129,7 +134,19 @@ public class MainActivity extends BaseActivity {
             HorizontalListViewAdapter horizontalListAdapter = new HorizontalListViewAdapter(aylar);
             mMevsimlerList.setAdapter(horizontalListAdapter);
 
+            mDenemeButton.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                    Log.e("button place", mDenemeButton.getLeft() + "\t\t\t" + mDenemeButton.getTop());
+                }
+            });
 
+            mDenemeButton.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                    Log.e("button", mDenemeButton.getWidth() + "\t\t\t" + mDenemeButton.getHeight());
+                }
+            });
             return rootView;
         }
 
@@ -210,3 +227,5 @@ class CustomViewPager extends ViewPager {
         this.childId = id;
     }
 }
+
+
