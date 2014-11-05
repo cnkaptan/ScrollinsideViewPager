@@ -17,7 +17,6 @@
             android:layout_height="2000dp"
             tools:context=".MainActivity"
             android:background="@android:color/holo_green_dark" />
-
     </LinearLayout>
 
 </ScrollView>
