@@ -1,12 +1,17 @@
 package com.solidict.scrollinsideviewpager;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Context;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.AttributeSet;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -20,13 +25,13 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 
-public class MainActivity extends Activity {
+public class MainActivity extends BaseActivity {
 
     protected static String[] aylar;
     SectionsPagerAdapter mSectionsPagerAdapter;
 
     @InjectView(R.id.pager)
-    ViewPager mViewPager;
+    CustomViewPager mViewPager;
 
 
     @Override
@@ -35,16 +40,19 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
 
+
         aylar = getResources().getStringArray(R.array.mevsimler);
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager());
-
         // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.pager);
+        mViewPager = (CustomViewPager) findViewById(R.id.pager);
+        mViewPager.setChildId(R.id.mevsimlerList);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
+        initializeScreenMeasure(new DisplayMetrics());
+        Log.e("BAKBAKBAKBAKBAK", app.screenWidth + "\t\t\t" + app.screenHeight);
     }
 
 
@@ -112,12 +120,12 @@ public class MainActivity extends Activity {
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
             ButterKnife.inject(this, rootView);
 
-
+            // --------------------- ViewPager Başlık ---------------------
             page = getArguments().getInt(ARG_SECTION_NUMBER) + "";
             titlepage = getArguments().getString(ARG_SECTION_TITLE);
             mSectionLabel.setText(titlepage + "\t" + page);
 
-
+            // --------------------- Horizontal ListView ------------------
             HorizontalListViewAdapter horizontalListAdapter = new HorizontalListViewAdapter(aylar);
             mMevsimlerList.setAdapter(horizontalListAdapter);
 
@@ -175,4 +183,30 @@ class HorizontalListViewAdapter extends BaseAdapter {
 }
 
 
+class CustomViewPager extends ViewPager {
 
+    private int childId;
+
+    public CustomViewPager(Context context, AttributeSet attrs) {
+        super(context, attrs);
+    }
+
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent event) {
+        if (childId > 0) {
+            View scroll = findViewById(childId);
+            if (scroll != null) {
+                Rect rect = new Rect();
+                scroll.getHitRect(rect);
+                if (rect.contains((int) event.getX(), (int) event.getY())) {
+                    return false;
+                }
+            }
+        }
+        return super.onInterceptTouchEvent(event);
+    }
+
+    public void setChildId(int id) {
+        this.childId = id;
+    }
+}
